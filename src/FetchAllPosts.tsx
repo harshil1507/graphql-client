@@ -2,8 +2,6 @@ import React from 'react';
 import { useQuery , useMutation} from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import './FetchAllPosts.css'
-import { stringify } from 'querystring';
-import { Link } from 'react-router-dom';
 let cursor,limit,reverse;
 const FETCH_ALL_POSTS = gql`
 query FetchAllPosts($authorId : String!){

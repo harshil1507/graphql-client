@@ -1,5 +1,5 @@
 import React from 'react';
-// import './App.css';
+import './App.css';
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import {Link} from 'react-router-dom'; 
@@ -43,22 +43,24 @@ function FetchAllAuthors() {
 
   return (
     <div>
-      {data.FetchAllAuthors.map(({ _id, firstName,lastName,posts} : {_id : string, firstName: string,lastName : string, posts:[]})=>(
-        <div key={_id}>
-          <Link to={{
-          pathname: '/author/'+_id,
-          }}>    
-              <h3>{firstName + ' ' + lastName}</h3>
-          </Link>
-          <span>{posts.length} posts</span>
-          <br></br>
-          <button className="btn" onClick={
-                ()=>{delAuthor({variables: {id: _id}})}
-                }>
-                  Delete author
-              </button>
-        </div>
-      ))}
+      <div className='author'> 
+        {data.FetchAllAuthors.map(({ _id, firstName,lastName,posts} : {_id : string, firstName: string,lastName : string, posts:[]})=>(
+          <div key={_id}>
+            <Link to={{
+            pathname: '/author/'+_id,
+            }}>    
+                <h3>{firstName + ' ' + lastName}</h3>
+            </Link>
+            <span>{posts.length} posts</span>
+            <br></br>
+            <button className="btn" onClick={
+                  ()=>{delAuthor({variables: {id: _id}})}
+                  }>
+                    Delete author
+                </button>
+          </div>
+        ))}
+      </div>
       <br></br>
       <form
           onSubmit={e => {

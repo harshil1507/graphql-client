@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import FetchPosts from "./FetchAllPosts";
 import FetchAllAuthors from './FetchAllAuthors';
-
+import Aggregate from './aggregate'
+import Populate from "./populate";
 // import FetchAllAuthors from './FetchAllAuthors';
 
 function App() {
@@ -22,6 +23,15 @@ function App() {
         <Route exact path="/author/:id">
           <FetchPosts />
         </Route>
+        
+        <Route exact path="/aggregate">
+          <Aggregate />
+        </Route>
+
+        <Route exact path="/populate">
+          <Populate />
+        </Route>
+        
       </Switch>
     </div>
   );
