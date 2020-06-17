@@ -1,18 +1,28 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
-import FetchAllPosts from "./FetchAllPosts";
-// import FetchAllAuthors from './fetchallauthors';
+import FetchPosts from "./FetchAllPosts";
+import FetchAllAuthors from './FetchAllAuthors';
+
+// import FetchAllAuthors from './FetchAllAuthors';
 
 function App() {
   return (
     <div className="App">
-      <FetchAllPosts  authorId="5ee7484e1d8e766f6353c41b"/>
+      <Switch>
+        <Route exact path = "/">
+          <FetchAllAuthors />          
+        </Route>
+
+        <Route exact path="/author/:id">
+          <FetchPosts />
+        </Route>
+      </Switch>
     </div>
   );
 }

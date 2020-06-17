@@ -6,6 +6,10 @@ import * as serviceWorker from './serviceWorker';
 import ApolloClient from 'apollo-boost';
 import { gql } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { createBrowserHistory } from "history";
+import { BrowserRouter as Router } from 'react-router-dom';
+
+const createHistory = createBrowserHistory();
 
 const client = new ApolloClient({
   uri : 'http://localhost:3000/graphql'
@@ -29,7 +33,9 @@ client.query({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
+     <Router>
       <App />
+     </Router>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
