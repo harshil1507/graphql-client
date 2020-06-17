@@ -33,11 +33,11 @@ mutation deleteAuthor($id:String!){
 
 
 function FetchAllAuthors() {
-  let endCursor: string;
+  let endCursor: string = "";
   let input1:any, input2: any;
-  const {loading, error, data, fetchMore} = useQuery(FETCH_ALL_AUTHORS, {variables: {limit:2,cursor:"",reverse:false}});
-  const [addAuthor] = useMutation(ADD_AUTHOR,{refetchQueries : [{query: FETCH_ALL_AUTHORS}]});
-  const [delAuthor] = useMutation(DELETE_AUTHOR, {refetchQueries : [{query : FETCH_ALL_AUTHORS}]});
+  const {loading, error, data, fetchMore} = useQuery(FETCH_ALL_AUTHORS, {variables: {limit:2,cursor:endCursor,reverse:false}});
+  const [addAuthor] = useMutation(ADD_AUTHOR,{refetchQueries : [{query : FETCH_ALL_AUTHORS, variables: {limit:2,cursor:endCursor,reverse:false}}]});
+  const [delAuthor] = useMutation(DELETE_AUTHOR, {refetchQueries : [{query : FETCH_ALL_AUTHORS, variables: {limit:2,cursor:endCursor,reverse:false}}]});
   
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
