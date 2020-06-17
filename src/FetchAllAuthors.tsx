@@ -4,15 +4,15 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import {Link} from 'react-router-dom'; 
 
-let cursor,limit,reverse;
 const FETCH_ALL_AUTHORS = gql`
-{
-  FetchAllAuthors{
+query fetchAllAuthors($limit : Int, $cursor: String, $reverse: Boolean){
+  FetchAllAuthors(limit:$limit,cursor:$cursor,reverse:$reverse){
     _id
     firstName
     lastName
     posts{
       _id
+      title
     }
   }
 }
@@ -33,8 +33,9 @@ mutation deleteAuthor($id:String!){
 
 
 function FetchAllAuthors() {
+  let endCursor: string;
   let input1:any, input2: any;
-  const {loading, error, data} = useQuery(FETCH_ALL_AUTHORS);
+  const {loading, error, data, fetchMore} = useQuery(FETCH_ALL_AUTHORS, {variables: {limit:2,cursor:"",reverse:false}});
   const [addAuthor] = useMutation(ADD_AUTHOR,{refetchQueries : [{query: FETCH_ALL_AUTHORS}]});
   const [delAuthor] = useMutation(DELETE_AUTHOR, {refetchQueries : [{query : FETCH_ALL_AUTHORS}]});
   
@@ -44,7 +45,9 @@ function FetchAllAuthors() {
   return (
     <div>
       <div className='author'> 
-        {data.FetchAllAuthors.map(({ _id, firstName,lastName,posts} : {_id : string, firstName: string,lastName : string, posts:[]})=>(
+        {data.FetchAllAuthors.map(({ _id, firstName,lastName,posts} : {_id : string, firstName: string,lastName : string, posts:[]})=>
+        {endCursor = _id
+          return(
           <div key={_id}>
             <Link to={{
             pathname: '/author/'+_id,
@@ -58,8 +61,20 @@ function FetchAllAuthors() {
                   }>
                     Delete author
                 </button>
+          
           </div>
-        ))}
+        )})}
+        <button onClick={()=> {
+          console.log(endCursor)
+          fetchMore({
+            variables: {
+              cursor: endCursor
+            },
+            updateQuery:(previousQueryResult, fetchMoreResult)=>{
+              console.log(previousQueryResult, fetchMoreResult)
+              return fetchMoreResult.fetchMoreResult}
+          })
+        }}> More </button>
       </div>
       <br></br>
       <form
